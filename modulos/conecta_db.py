@@ -5,13 +5,18 @@ import mariadb
 from logger.Logger import etlLogger
 import sys
 from datetime import datetime, timedelta
+import yaml
+
+
 
 def connect_db(LOGGER_OBJ):
     LOGGER_OBJ.info('Conectando ao banco de dados')
+    with open('config/config.yaml') as file:
+        cred = yaml.load(file, Loader=yaml.FullLoader)
     try:
         conn = mariadb.connect(
-            user="ciurlini",
-            password="casa2406",
+            user=cred['DB']['USER'],
+            password=cred['DB']['PSSWRD'],
             host="localhost",
             port=3306,
             database="ALBION"
