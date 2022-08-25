@@ -5,28 +5,27 @@ import mariadb
 from logger.Logger import etlLogger
 import sys
 from datetime import datetime, timedelta
-from modulos.conecta_db import connect_db, ingest_data_gold
+from modulos.conecta_db import connect_db, ingest_data
 from modulos.crawler import get_response
-from modulos.data_processing import create_df_gold
+from modulos.data_processing import create_df, get_urls
 
 def main():
     LOGGER_OBJ = etlLogger(project_name='gold_predict')
     LOGGER_OBJ.info("Inicio da rotina")
-    cities = ['Bridgewatch', 'Caerleon', 'Lymhurst', 'Martlock', 'Thetford']
-    dt_today = datetime.now()
-    dt_tomorrow = datetime.now() + timedelta(days=1)
-    str_date_today = dt_today.strftime("%m-%d-%Y")
-    str_date_tomorrow = dt_tomorrow.strftime("%m-%d-%Y")
-    URL = f"https://www.albion-online-data.com/api/v2/stats/gold?date={str_date_today}&end_date={str_date_tomorrow}"
+    table_gold = 'gold_prices'
+    table_potion = 'potion_prices'
+    list_of_tables = ['gold_prices', 'potion_prices']
+    list_of_urls = get_urls()
 
-    list_of_items = ['T4_POTION_HEAL','T6_POTION_HEAL', 'T4_POTION_HEAL@1', 'T6_POTION_HEAL@1']
-    
     conn, cur = connect_db(LOGGER_OBJ)
-    content_list = get_response(URL, LOGGER_OBJ)
-    df_ingest, ingest = create_df_gold(content_list, conn, LOGGER_OBJ)
-    ingest_data_gold(df_ingest, conn, cur, LOGGER_OBJ)
-    for table in list_of_items:
-        pass
+    for table, url in zip(list_of_tables, list_of_urls):
+        content_list = get_response(url, LOGGER_OBJ)
+        df_ingest, ingest = create_df(content_list, table, conn, LOGGER_OBJ)
+        if ingest == True:
+            ingest_data(df_ingest, table, conn, cur, LOGGER_OBJ)
+            ingest = False
+        else:
+            LOGGER_OBJ.info("Não há dados para ingestão")
 
 if __name__ == '__main__':
     main()
