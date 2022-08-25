@@ -7,8 +7,6 @@ import sys
 from datetime import datetime, timedelta
 import yaml
 
-
-
 def connect_db(LOGGER_OBJ):
     LOGGER_OBJ.info('Conectando ao banco de dados')
     with open('config/config.yaml') as file:
@@ -30,14 +28,14 @@ def connect_db(LOGGER_OBJ):
 
     return conn, cur
 
-def ingest_data_gold(df_ingest, conn, cur, LOGGER_OBJ):
+def ingest_data(df_ingest, table, conn, cur, LOGGER_OBJ):
 
-    LOGGER_OBJ.info("Realizando ingestão de dados")
+    LOGGER_OBJ.info(f"Realizando ingestão de dados da tabela {table}")
     cols = "`,`".join([str(i) for i in df_ingest.columns.tolist()])
 
     try:
         for i,row in df_ingest.iterrows():
-            sql = "INSERT INTO `"+table+"` (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+            sql = f"INSERT INTO ALBION."+table+" (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
             cur.execute(sql, tuple(row))
         conn.commit()
         LOGGER_OBJ.info("Ingestão realizada com sucesso")

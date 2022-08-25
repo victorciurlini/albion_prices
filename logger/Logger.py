@@ -11,7 +11,7 @@ class etlLogger(Logger):
     self, 
     arq_log=None, 
     project_name="Default", 
-    log_formato='{"timestamp": "%(asctime)s", "processo": "%(processName)s", "thread": "%(threadName)s", "script": "%(filename)s", "modulo": "%(module)s", "metodo": "%(funcName)s", "level": "%(levelname)s", "mensagem": "%(message)s"}', 
+    log_formato='{"timestamp": "%(asctime)s", "processo": "%(processName)s", "thread": "%(threadName)s","level": "%(levelname)s", "script": "%(filename)s", "modulo": "%(module)s", "metodo": "%(funcName)s",  "mensagem": "%(message)s"}', 
     *args, 
     **kwargs): 
         self.formatter = logging.Formatter(log_formato) 
