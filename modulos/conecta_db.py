@@ -4,7 +4,7 @@ from modulos.funcoes_aux import read_yaml
 
 def connect_db(LOGGER_OBJ):
     LOGGER_OBJ.info('Conectando ao banco de dados')
-    cred = read_yaml('config/config.yaml')
+    cred = read_yaml('config/db_access.yaml')
     try:
         conn = mariadb.connect(
             user=cred['DB']['USER'],

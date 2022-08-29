@@ -1,4 +1,4 @@
 .pyenv
 logs
-config/config.yaml
+config/db_access.yaml
 worbench.ipynb
