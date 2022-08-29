@@ -1,16 +1,10 @@
-import pandas as pd
-import requests
-import ast
 import mariadb
-from logger.Logger import etlLogger
 import sys
-from datetime import datetime, timedelta
-import yaml
+from modulos.funcoes_aux import read_yaml
 
 def connect_db(LOGGER_OBJ):
     LOGGER_OBJ.info('Conectando ao banco de dados')
-    with open('config/config.yaml') as file:
-        cred = yaml.load(file, Loader=yaml.FullLoader)
+    cred = read_yaml('config/db_access.yaml')
     try:
         conn = mariadb.connect(
             user=cred['DB']['USER'],

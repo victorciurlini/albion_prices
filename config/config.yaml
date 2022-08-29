@@ -1,0 +1,7 @@
+URLS:
+  URL_GOLD: https://www.albion-online-data.com/api/v2/stats/gold?date=today&end_date=tomorrow
+  URL_ITEM: https://www.albion-online-data.com/api/v2/stats/history/itens?date=today&end_date=tomorrow&locations=cities&qualities=1,2,3&time-scale=6
+DICTS_CONFIG:
+  LOG: ['timestamp', 'processo', 'thread', 'level', 'script', 'modulo', 'metodo', 'mensagem']
+DIFF_COLUMNS:
+  LOG: {'processo_x': 'processo', 'thread_x': 'thread', 'level_x': 'level', 'script_x': 'script', 'modulo_x': 'modulo', 'metodo_x': 'metodo', 'mensagem_x': 'mensagem'}

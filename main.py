@@ -1,19 +1,12 @@
-import pandas as pd
-import requests
-import ast
-import mariadb
 from logger.Logger import etlLogger
-import sys
-from datetime import datetime, timedelta
 from modulos.conecta_db import connect_db, ingest_data
 from modulos.crawler import get_response
-from modulos.data_processing import create_df, get_urls
+from modulos.data_processing import create_df
+from modulos.funcoes_aux import get_urls
 
 def main():
     LOGGER_OBJ = etlLogger(project_name='gold_predict')
     LOGGER_OBJ.info("Inicio da rotina")
-    table_gold = 'gold_prices'
-    table_potion = 'potion_prices'
     list_of_tables = ['gold_prices', 'potion_prices']
     list_of_urls = get_urls()
 
